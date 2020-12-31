@@ -54,6 +54,11 @@ form {
   border: 1px solid var(--secondary);
   background: white;
 }
+
+form h2 {
+  text-align: center;
+}
+
 input,
 textarea {
   border: 0;
