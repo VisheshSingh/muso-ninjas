@@ -1,9 +1,10 @@
 <template>
   <div class="navbar">
     <nav>
+      <img src="@/assets/ninja.png" alt="logo" />
       <h1><router-link :to="{ name: 'Home' }">Muso Ninjas</router-link></h1>
       <div class="links">
-        <button class="btn">Logout</button>
+        <button class="btn" @click="handleLogout">Logout</button>
         <router-link :to="{ name: 'Signup' }" class="btn">Signup</router-link>
         <router-link :to="{ name: 'Login' }" class="btn">Login</router-link>
       </div>
@@ -12,8 +13,23 @@
 </template>
 
 <script>
+import useLogout from '@/composables/useLogout';
+import { useRouter } from 'vue-router';
+
 export default {
   name: 'Navbar',
+  setup() {
+    const router = useRouter();
+    const { logout } = useLogout();
+
+    const handleLogout = async () => {
+      await logout();
+      console.log('logout success');
+      router.push('/login');
+    };
+
+    return { handleLogout };
+  },
 };
 </script>
 
@@ -28,7 +44,7 @@ nav {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  align-content: center;
+  align-items: center;
 }
 
 nav h1 {
@@ -43,5 +59,9 @@ nav .links a,
 nav button {
   margin-left: 16px;
   font-size: 14px;
+}
+
+nav img {
+  max-width: 60px;
 }
 </style>
