@@ -8,7 +8,7 @@
       <h2 class="title">{{ playlist.title }}</h2>
       <p class="username">Created by {{ playlist.userName }}</p>
       <p class="description">{{ playlist.description }}</p>
-      <button v-if="ownership" @click="handleDelete">Delete playlist</button>
+      <button @click="handleDelete">Delete playlist</button>
     </div>
 
     <div class="song-list">
