@@ -1,5 +1,5 @@
 <template>
-  <div v-if="error" class="class">{{ error }}</div>
+  <div v-if="error" class="error">{{ error }}</div>
   <div v-if="playlist" class="playlist-details">
     <div class="playlist-info">
       <div class="cover">
@@ -8,7 +8,7 @@
       <h2 class="title">{{ playlist.title }}</h2>
       <p class="username">Created by {{ playlist.userName }}</p>
       <p class="description">{{ playlist.description }}</p>
-      <button v-if="ownership">Delete playlist</button>
+      <button v-if="ownership" @click="handleDelete">Delete playlist</button>
     </div>
 
     <div class="song-list">
@@ -20,6 +20,7 @@
 <script>
 import getDocument from '@/composables/getDocument';
 import getUser from '@/composables/getUser';
+import useDocument from '@/composables/useDocument';
 import { computed } from 'vue';
 
 export default {
@@ -28,6 +29,7 @@ export default {
   setup(props) {
     const { error, document: playlist } = getDocument('playlist', props.id);
     const { user } = getUser();
+    const { error: deleteError, deleteDoc } = useDocument('playlist', props.id);
 
     const ownership = computed(() => {
       return (
@@ -35,7 +37,11 @@ export default {
       );
     });
 
-    return { error, playlist, ownership };
+    const handleDelete = async () => {
+      await deleteDoc();
+    };
+
+    return { error, playlist, ownership, deleteError, handleDelete };
   },
 };
 </script>
