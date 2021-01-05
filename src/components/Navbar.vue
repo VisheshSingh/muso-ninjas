@@ -8,6 +8,7 @@
           <router-link :to="{ name: 'CreatePlaylist' }"
             >Create Playlist</router-link
           >
+          <router-link :to="{ name: 'UserPlaylists' }">My Playlist</router-link>
           <button class="btn" @click="handleLogout">Logout</button>
         </div>
         <div v-else>
