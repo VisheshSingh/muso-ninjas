@@ -28,7 +28,7 @@ const useStorage = () => {
     try {
       await storageRef.delete();
     } catch (err) {
-      console.oog(err.message);
+      console.log(err.message);
       error.value = err.message;
     }
   };
