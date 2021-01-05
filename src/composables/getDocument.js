@@ -1,0 +1,33 @@
+import { ref, watchEffect } from 'vue';
+import { projectFirestore } from '../firebase/config';
+
+const getDocument = (collection, id) => {
+  const document = ref(null);
+  const error = ref(null);
+
+  let documentRef = projectFirestore.collection(collection).doc(id);
+
+  const unsub = documentRef.onSnapshot(
+    (doc) => {
+      if (doc.data()) {
+        document.value = { ...doc.data(), id: doc.id };
+        error.value = null;
+      } else {
+        error.value = 'There is no document with that id';
+      }
+    },
+    (err) => {
+      document.value = null;
+      console.log(err.message);
+      error.value = 'Could not find the document';
+    }
+  );
+
+  watchEffect((onInvalidate) => {
+    onInvalidate(() => unsub());
+  });
+
+  return { error, document };
+};
+
+export default getDocument;
